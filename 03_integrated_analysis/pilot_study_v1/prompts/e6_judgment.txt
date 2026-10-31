@@ -1,0 +1,15 @@
+Compare the abstracts supplied in the user message. Use only that text. Do not retrieve papers, do not use a title, and do not fill results from general knowledge. This is e6_judgment_v1.
+
+Return one JSON object:
+can_describe_relation: true or false
+relation_scope: one short sentence, or why the studies differ
+direction_pattern: similar | opposite | mixed | unassessable
+direction_applicable: true or false
+direction_limit: what blocks a direction comparison, or empty
+magnitude_comparable: true or false
+measurement_relation: same_reported_measurement | known_difference | unknown | not_applicable
+population_or_system_relation: same_on_reported_information | known_difference | unknown | not_applicable
+missing_information: a list of strings
+evidence_refs: a list of {pmid, quote} copied from the supplied abstracts
+
+The same reported direction does not mean the measurements are the same. Protein and RNA can be described together and still be a known measurement difference. If the text is insufficient, use unassessable rather than choosing a direction. A missing field is not evidence that the studies disagree.

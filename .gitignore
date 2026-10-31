@@ -1,0 +1,51 @@
+# Python and tools
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.ipynb_checkpoints/
+
+# Local environments and settings
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+/configs/paths.local.sh
+.DS_Store
+
+# Data and generated directories: never part of this code repository
+/data/
+/raw/
+/processed/
+/splits/
+/models/
+/runs/
+/outputs/
+/results/
+/logs/
+/cache/
+/.cache/
+/wandb/
+
+# Model weights and large binary artifacts
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.parquet
+*.arrow
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# Runtime logs
+*.log
+slurm-*.out

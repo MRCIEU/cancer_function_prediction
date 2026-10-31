@@ -1,0 +1,17 @@
+{
+  "id": "finding.protocol_v1",
+  "status": "untested_protocol_v1",
+  "unit": "one recognizable empirical result or one author interpretation",
+  "identity_note": "A finding id is not an output row number. The same sentence may support more than one finding.",
+  "required": ["pair_id", "pmid", "text_version_id", "discourse_role", "primary_question_type", "measured_or_intervened", "comparator", "outcome", "result_text", "information_status"],
+  "discourse_role": ["own_result", "author_interpretation", "background", "unassessable"],
+  "primary_question_type": ["expression_or_distribution", "prognostic_association", "other", "unassessable"],
+  "question_type_rule": {
+    "expression_or_distribution": "The outcome is an expression, localization, or abundance measurement.",
+    "prognostic_association": "A marker, including expression, is the predictor and the outcome is survival or another prognostic endpoint. The word expression does not by itself make the finding an expression question.",
+    "other": "A result type the two classes do not cover. It is kept. It is not an author interpretation and it is not deleted."
+  },
+  "information_status": ["reported", "not_reported_in_text", "unassessable", "not_applicable", "not_recorded_in_legacy", "technical_failure"],
+  "direction_binding": "A direction is stored only together with the measured object, the comparator, and the outcome. A tumor-versus-normal increase and a high-versus-low survival association do not share a bare increase label.",
+  "normalization": "Only deterministic conservative normalization is allowed. A string difference is neither an automatic conflict nor an automatic synonym."
+}

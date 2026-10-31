@@ -1,0 +1,5 @@
+{
+  "id": "gap.v1",
+  "gap_state": ["corpus_not_observed", "abstract_underreported", "candidate_result_claim_gap", "candidate_cross_study_gap"],
+  "required": ["question_type", "missing_dimension", "why_it_matters", "search_question", "alternative_explanations", "unresolved"]
+}

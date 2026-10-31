@@ -1,0 +1,14 @@
+{
+  "id": "comparison.protocol_v1",
+  "status": "untested_protocol_v1",
+  "case_id": ["pair_id", "paper_pair", "neutral_question", "text_version_a", "text_version_b"],
+  "unit_note": "A finding pair is an object inside a case. Multiple findings are not additional studies. One paper pair may contain more than one question.",
+  "required": ["case_id", "can_describe_relation", "observed_direction_pattern", "direction_comparable", "magnitude_comparable", "measurement_relation", "population_or_system_relation", "limits", "unknowns"],
+  "observed_direction_pattern": ["similar", "opposite", "mixed", "unassessable"],
+  "direction_pattern_note": "opposite records an apparent difference in the reported direction. It is not by itself a scientific contradiction.",
+  "measurement_relation": ["same_reported_measurement", "known_difference", "unknown", "not_applicable"],
+  "population_or_system_relation": ["same_on_reported_information", "known_difference", "unknown", "not_applicable"],
+  "information_status": ["reported", "not_reported_in_text", "unassessable", "not_applicable", "not_recorded_in_legacy", "technical_failure"],
+  "magnitude_rule": "Direct numeric comparison needs a compatible outcome, comparator, scale, and time. A pooled effect needs further statistical assumptions. The same reported direction is not the same measurement.",
+  "program_checks": "Programs check logical dependencies, missing-state labels, and units. They do not replace a scientific compatibility judgement."
+}

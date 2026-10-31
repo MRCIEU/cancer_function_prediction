@@ -1,0 +1,59 @@
+{
+  "analysis_id": "data_analysis_round1",
+  "id_rule_version": "id_rule_v1",
+  "percentile_method": "nearest_rank_ceil",
+  "case_seed": "20241014",
+  "case_target_n": 20,
+  "paths": {
+    "code_root": "/home/b5ac/freddieyu.b5ac/project_2",
+    "project_root": "/projects/b5ac/project_2",
+    "raw_data_root": "/projects/b5ac/project_2/data",
+    "results_root": "/projects/b5ac/project_2/results",
+    "core_ttl": "/projects/b5ac/project_2/data/CORE/data.ttl",
+    "core_owl": "/projects/b5ac/project_2/data/CORE/schema.owl",
+    "semmed_dir": "/projects/b5ac/project_2/data/semmeddb",
+    "venv_python": "/projects/b5ac/project_2/envs/core_semmed_py312/bin/python",
+    "venv_prefix": "/projects/b5ac/project_2/envs/core_semmed_py312",
+    "pip_cache": "/projects/b5ac/project_2/envs/pip_cache",
+    "base_python": "/home/b5ac/freddieyu.b5ac/miniforge3/bin/python"
+  },
+  "preflight": {
+    "max_records": 2000,
+    "max_bytes": 33554432,
+    "max_triples": 3000,
+    "prefix_compare_records": 200
+  },
+  "thresholds": {
+    "max_reject_fraction": 0.001,
+    "max_pmid_cast_fail_fraction": 0.001,
+    "min_free_bytes": 214748364800
+  },
+  "duckdb": {
+    "memory_limit": "72GB",
+    "max_temp_directory_size": "2TB",
+    "max_line_size": 20000000
+  },
+  "slurm": {
+    "account": "brics.b5ac",
+    "partition": "workq"
+  },
+  "documentation": {
+    "semmed_dbinfo": "https://lhncbc.nlm.nih.gov/temp/SemRep_SemMedDB_SKR/dbinfo.html",
+    "semmed_download": "https://lhncbc.nlm.nih.gov/temp/SemRep_SemMedDB_SKR/SemMedDB_download.html",
+    "core_repo": "https://github.com/GDAMining/core",
+    "core_zenodo": "https://doi.org/10.5281/zenodo.7577127",
+    "core_paper": "https://academic.oup.com/database/article/doi/10.1093/database/baad061/7284097"
+  },
+  "reference_counts_not_targets": {
+    "note": "Published semmedVER43_R CSV row counts from the NLM download page. Not acceptance targets and not local measurements.",
+    "release_name_on_page": "semmedVER43_R",
+    "filename_pattern_on_page": "semmedVER43_2024_<TABLE>",
+    "corpus_note": "Page states MEDLINE baseline 2022 plus PubMed update files through 2024-05-08, SemRep 1.8, anaphora off.",
+    "CITATIONS": 37233341,
+    "ENTITY": 1982424585,
+    "GENERIC_CONCEPT": 259,
+    "PREDICATION": 130480195,
+    "PREDICATION_AUX": 130480181,
+    "SENTENCE": 263160520
+  }
+}

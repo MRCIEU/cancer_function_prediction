@@ -1,0 +1,8 @@
+[project]
+name = "pairpilot"
+version = "1.0.0"
+description = "Exploratory CORE–SemMedDB pilot"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,18 @@
+Review the supplied candidate questions for one gene–cancer pair. Use the supplied abstracts and the candidate's own quotes. You may reject a candidate. Do not score your confidence.
+
+Return one JSON object with key reviews. Each review keeps candidate_id and includes:
+target_question
+existing_findings
+evidence_refs
+missing_information_or_connection
+why_it_matters
+alternative_explanations
+what_additional_evidence_would_change_the_candidate
+search_question
+searchability: searchable_across_papers | only_original_paper_detail | not_searchable
+gap_state: corpus_not_observed | abstract_underreported | candidate_result_claim_gap | candidate_cross_study_gap | rejected
+scope_limit
+entity_conflict: true or false
+only_original_methods_omission: true when the missing fact can be answered only by the original paper's own methods or results, not by another paper.
+
+A missing randomization statement in one abstract is not a cross-paper search question. A direction conflict is not required.

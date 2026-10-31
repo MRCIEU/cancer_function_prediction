@@ -1,0 +1,39 @@
+slurm:
+  account: brics.b5ac
+  partition: workq
+  cpu_tasks: 8
+  cpu_mem_gb: 64
+  cpu_time: "06:00:00"
+  test_tasks: 4
+  test_mem_gb: 16
+  test_time: "00:45:00"
+  gpu_smoke_gres: gpu:1
+  gpu_smoke_mem_gb: 64
+  gpu_smoke_time: "00:20:00"
+paths:
+  code_root: /home/b5ac/freddieyu.b5ac/project_2
+  project_root: /projects/b5ac/project_2
+  project_root_realpath_note: realpath of /projects/b5ac/project_2 and /home/b5ac/freddieyu.b5ac/projects/project_2 is /lus/lfs1aip2/projects/b5ac/project_2
+  results_root: /projects/b5ac/project_2/results/03_integrated_analysis
+  python: /projects/b5ac/project_2/envs/core_semmed_py312/bin/python
+  vllm_python: /projects/b5ac/envs/p2_vllm013/bin/python
+  qwen_weights: /projects/b5ac/local_models/Qwen3-235B-A22B-Instruct-2507-FP8
+  qwen_revision: e156cb4efae43fbee1a1ab073f946a1377e6b969
+  scratch_env: SLURM_TMPDIR
+budget:
+  approved: false
+  max_api_calls: null
+  max_input_tokens: null
+  max_output_tokens: null
+  max_usd: null
+  price_source: null
+network:
+  openai_key_env: OPENAI_API_KEY
+  ncbi_key_env: NCBI_API_KEY
+  openai_key_present: true
+  ncbi_key_present: true
+limits:
+  network_retries: 3
+  format_repairs: 1
+  ncbi_batch_size: 80
+  ncbi_pause_seconds: 0.12

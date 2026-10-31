@@ -1,0 +1,12 @@
+{
+  "id": "annotation.v1",
+  "status": "blank_template_not_filled",
+  "layers": ["reference_judgement_hidden", "output_check_after_lock"],
+  "labels": {
+    "support": ["full_support", "partial_support", "contradiction", "insufficient_information", "not_evaluated"],
+    "question_type": ["expression_or_distribution", "prognostic_association", "other", "unassessable", "not_evaluated"],
+    "comparison": ["describable", "direction_comparable", "magnitude_comparable", "not_comparable", "unassessable", "not_evaluated"],
+    "quote_role": ["supports_this_field", "supports_another_field", "does_not_support", "field_link_unknown", "not_evaluated"]
+  },
+  "recall_rule": "Extraction recall is computed only where an independent target-result list exists. Otherwise report support of emitted findings and set recall to not_evaluated."
+}

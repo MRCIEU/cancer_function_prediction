@@ -1,0 +1,73 @@
+rule_version: id_alignment_v2
+historical_label_note: joint_v2.json still contains id_rule_v1 and E_gngm_neop_with_same_sentence_numeric_gene_id. Those strings are stale write labels and are not read as the algorithm.
+eval_pair_list: none_found
+tables:
+  core_pair:
+    path: /projects/b5ac/project_2/results/01_core_audit/tables/pair.parquet
+    format: parquet
+    keys: [gene_id, disease_cui]
+    unit: explicit_pair
+    expected_rows: 153016
+  core_pair_pmid:
+    path: /projects/b5ac/project_2/results/01_core_audit/tables/pair_pmid.parquet
+    format: parquet
+    keys: [gene_id, disease_cui, pmid]
+    unit: pair_pmid
+    expected_rows: 321201
+    expected_distinct_pmid: 161449
+  core_sentence:
+    path: /projects/b5ac/project_2/results/01_core_audit/tables/sentence.parquet
+    format: parquet
+    keys: [sentence_uri, gene_id, disease_cui]
+    unit: sentence_pair_link
+    note: Source sentences already extracted. Labels stay on the linked pair row.
+  semmed_pair_pmid:
+    path: /projects/b5ac/project_2/results/03_integrated_analysis/id_alignment_v2_round1/tables/semmed_pair_pmid.parquet
+    format: parquet
+    keys: [gene_id, disease_cui, pmid]
+    unit: pair_pmid
+    expected_rows: 137221
+    expected_distinct_pmid: 113380
+  pair_relations:
+    path: /projects/b5ac/project_2/results/03_integrated_analysis/id_alignment_v2_round1/tables/pair_relations.parquet
+    format: parquet
+    keys: [gene_id, disease_cui]
+    unit: pair
+    expected_class_counts:
+      identical: 5303
+      core_subset: 2626
+      semmed_subset: 1590
+      partial_overlap: 3883
+      disjoint: 17508
+    expected_pair_pmid_intersection: 17260
+    expected_unique_pmid_intersection: 31412
+    expected_shared_pairs: 30910
+  accepted_match:
+    path: /projects/b5ac/project_2/results/03_integrated_analysis/id_alignment_v2_round1/tables/accepted_match.parquet
+    format: parquet
+    keys: [predication_id, gene_side]
+    unit: accepted_core_anchored_argument
+  mapped:
+    path: /projects/b5ac/project_2/results/03_integrated_analysis/id_alignment_v2_round1/tables/mapped.parquet
+    format: parquet
+    keys: [population, predication_id, gene_side]
+    unit: argument_row
+  year:
+    path: /projects/b5ac/project_2/results/03_integrated_analysis/id_alignment_v2_round1/revision/year_coverage/tables/pmid_year_extended.parquet
+    format: parquet
+    keys: [pmid]
+    unit: pmid
+    required_columns: [pmid, core_year_status, core_year, semmed_dp_status, semmed_dp_year]
+    note: Metadata only. The pilot does not filter on the shared year set. The older pmid_year.parquet covers CORE PMIDs only and is not a sample filter.
+  semmed_sentence_csv:
+    path: /projects/b5ac/project_2/data/semmeddb/semmedVER43_2024_R_SENTENCE.23327.csv
+    format: csv
+    dialect: backslash_escape
+    encoding: utf-8
+    columns: 9
+    text_column: c5
+    id_column: c0
+    note: About 50G. One projected scan for selected sentence ids only. Not a full-library rebuild.
+  graph_edges:
+    path: null
+    note: No gene-gene edge index is registered. E4 stays implemented and skips with skipped_unavailable_input.

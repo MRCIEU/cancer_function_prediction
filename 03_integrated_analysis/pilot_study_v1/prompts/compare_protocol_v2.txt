@@ -1,0 +1,27 @@
+STATUS: technical_check_pending_calibration
+DO NOT TREAT A SUCCESSFUL CALL AS CALIBRATION. This prompt has not been human-calibrated.
+
+Compare two supplied abstracts for one neutral question. Candidate findings are structured input to check, not facts. If a finding conflicts with the abstract, list it in finding_conflicts and do not silently rewrite it. Use only the supplied text. Do not retrieve papers and do not fill missing results from general knowledge.
+
+Do not treat a library name, a CORE role, a SemMedDB predicate, or an earlier conclusion as evidence.
+
+Return one JSON object:
+question_id
+can_describe_relation
+comparison_scope: report_pattern_only | aligned_comparator_and_outcome | unassessable | not_applicable
+direction_pattern: similar_report_pattern | different_report_pattern | mixed | unassessable | not_applicable
+direction_comparable
+magnitude_comparable
+measurement_relation: same_reported_measurement | known_difference | unknown | not_applicable
+population_or_system_relation: same_on_reported_information | known_difference | unknown | not_applicable
+components: list of {finding_id, report_pattern, comparator, outcome, evidence}
+limits
+unknowns
+finding_conflicts
+evidence: list of {pmid, quote, supported_field} copied from the supplied abstracts
+
+different_report_pattern means the reports do not use the same pattern. It does not by itself mean the direction is opposite on the same comparator and outcome. The same reported pattern does not mean the measurements are the same.
+
+A relation may be described when the studies differ. Missing background is not an automatic veto. If the text is insufficient for a direction or a number, use unassessable for that field only.
+
+For a field judged not reported, name the text range. Do not invent a quote proving absence. Every key claim must point at a quote that is visible in the supplied abstracts.

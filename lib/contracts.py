@@ -1,0 +1,85 @@
+"""Stable column contracts shared by later jobs."""
+
+PAIR_PMID = [
+    "gene_id",
+    "disease_cui",
+    "pmid",
+    "n_sentence",
+    "n_distinct_label_tuples",
+    "heterogeneous_within_pmid",
+    "label_set",
+    "n_distinct_usable_tuples",
+    "usable_status",
+]
+
+PAIR = [
+    "gene_id",
+    "disease_cui",
+    "n_gcs",
+    "n_sentence",
+    "n_pmid",
+    "n_sentence_without_pmid",
+    "heterogeneous_across_pmid",
+    "n_distinct_pmid_label_sets",
+    "first_observable_year",
+]
+
+SENTENCE = [
+    "sentence_uri",
+    "gcs_uri",
+    "gene_id",
+    "disease_cui",
+    "gene_status",
+    "disease_status",
+    "pair_status",
+    "pmid",
+    "pmid_status",
+    "article_uri",
+    "gcc",
+    "cge",
+    "ccs",
+    "gci",
+    "label_tuple",
+    "n_label_values",
+    "curated",
+    "content",
+    "gene_mention",
+    "disease_mention",
+    "gene_start",
+    "gene_end",
+    "disease_start",
+    "disease_end",
+    "db_uri",
+    "has_type",
+]
+
+SEMMED_PREDICATION = [
+    "predication_id",
+    "sentence_id",
+    "pmid",
+    "predicate",
+    "negation_prefix",
+    "predicate_without_neg_prefix",
+    "subject_cui",
+    "subject_name",
+    "subject_semtype",
+    "subject_novelty",
+    "object_cui",
+    "object_name",
+    "object_semtype",
+    "object_novelty",
+]
+
+SCOPE_E = [
+    "scope",
+    "predication_id",
+    "sentence_id",
+    "pmid",
+    "predicate",
+    "negation_prefix",
+    "gene_cui",
+    "disease_cui",
+    "gene_position",
+    "gene_semtype",
+    "disease_semtype",
+]

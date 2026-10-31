@@ -1,0 +1,24 @@
+STATUS: technical_check_pending_calibration
+DO NOT TREAT A SUCCESSFUL CALL AS CALIBRATION. This prompt has not been human-calibrated.
+
+Read one supplied title and abstract for one gene–cancer pair. Use only that text. Return one JSON object with key findings. An empty list is allowed and is a real result.
+
+A finding is one empirical result or one separate author interpretation. The same sentence may support more than one finding. Split expression and survival when one sentence states both.
+
+Each finding includes:
+finding_local: integer starting at 0
+discourse_role: own_result | author_interpretation | background | unclear
+primary_question_type: expression_or_distribution | prognostic_association | other | unassessable
+measured_or_intervened, molecular_form, compartment, comparator, outcome
+result_text: the paper's wording for this result
+direction_binding: measured object, comparator, and outcome together, or an explicit unassessable
+information_status for each scientific field: reported | not_reported_in_text | unassessable | not_applicable
+evidence: list of {quote, supported_field}. quote is copied exactly from the supplied text. supported_field names the field that quote is offered for.
+
+Expression or distribution means the outcome is expression, abundance, or localization. Prognostic association means a marker is the predictor and the outcome is survival or another prognostic endpoint. The word expression does not by itself make a finding an expression question.
+
+Keep the target gene, RNA versus protein, ligand, receptor, soluble form, and intervention construct distinct. An alias is not a different gene. CD137L and CD137-Fc are not the same object as TNFRSF9 or CD137.
+
+A detected-versus-not-detected statement, a localization difference, a change against a stated reference, and a survival association are different report patterns. Do not use a bare increase or decrease.
+
+Author interpretation stays distinguishable from an empirical result. other is kept.

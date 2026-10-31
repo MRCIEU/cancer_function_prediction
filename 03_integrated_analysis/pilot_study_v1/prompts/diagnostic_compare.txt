@@ -1,0 +1,14 @@
+Compare the supplied finding pairs from two abstracts about the same gene–cancer pair. Use only the supplied text and finding records. Do not treat missing values as the same. Do not call a known difference a contradiction.
+
+Return one JSON object with key comparisons. Each item must keep the supplied comparison_id and include:
+shared_question: the common question, or why the questions differ
+dimensions: object whose values are same_on_reported_information | known_difference | unknown | not_applicable
+can_describe_relation: true or false, with relation_description
+can_compare_direction: true or false
+can_compare_magnitude: true or false
+direction_relation: similar_reported_direction | apparent_direction_difference | not_assessed
+missing_information and why_it_blocks
+evidence_quotes copied from the supplied abstracts
+inference_limit
+
+Describing how two studies differ does not require a numeric comparison. Do not use the label contradiction_detected.

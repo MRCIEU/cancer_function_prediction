@@ -1,0 +1,10 @@
+{
+  "id": "finding.v1",
+  "required": ["question_type", "study_system", "discourse_role", "evidence"],
+  "question_type": ["expression_difference", "prognostic_association", "gene_perturbation", "other", "unknown"],
+  "study_system": ["human", "animal", "cell", "other", "unknown"],
+  "discourse_role": ["own_result", "background", "author_interpretation", "recommendation", "unclear"],
+  "reporting_status": ["reported", "not_reported", "not_applicable", "unclear"],
+  "assessability": ["sufficient", "insufficient", "not_applicable", "not_assessed"],
+  "significance": ["significant", "not_significant", "not_reported", "unclear"]
+}
