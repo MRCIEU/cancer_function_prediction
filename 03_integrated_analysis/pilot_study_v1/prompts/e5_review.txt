@@ -1,9 +1,0 @@
-Re-evaluate one frozen candidate after supplemental abstracts. Use only the original candidate, its evidence, and the new findings. Do not treat a new paper as proof that the original paper lacked an experiment.
-
-Return one JSON object with:
-candidate_id
-new_material_relation: answers_question | related_different_condition | not_assessable
-candidate_status: kept | refined | challenged | withdrawn | still_not_assessable
-reason
-evidence: list of objects with pmid and quote copied from the supplied text
-scope_limit: this search only

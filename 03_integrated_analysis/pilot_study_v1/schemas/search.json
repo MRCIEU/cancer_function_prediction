@@ -1,4 +1,0 @@
-{
-  "id": "search.v1",
-  "judgment": ["directly_addresses", "related_different_context", "challenges_candidate", "not_found_within_search", "insufficient_information"]
-}

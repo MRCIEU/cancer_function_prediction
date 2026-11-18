@@ -1,0 +1,105 @@
+# Pinned inputs for the joint graph. Credentials are read from the environment
+# at download time and are not stored in this file.
+
+core:
+  release_id: zenodo7577127_v1.1
+  version: "1.1"
+  doi: 10.5281/zenodo.7577127
+  concept_doi: 10.5281/zenodo.7576963
+  source_url: https://zenodo.org/records/7577127
+  paper_doi: 10.1093/database/baad061
+  paper_pubmed: "37768281"
+  paper_confirmation: >-
+    Europe PMC abstract for PubMed 37768281 states the database URL
+    https://zenodo.org/record/7577127. The Zenodo title and authors match
+    the CORE gene expression-cancer knowledge base.
+  license: CC-BY-4.0
+  files:
+    - name: data.ttl
+      url: https://zenodo.org/records/7577127/files/data.ttl?download=1
+      bytes: 791690833
+      upstream_md5: c1f94efcba05b56c85542d0c5702d3f6
+    - name: schema.owl
+      url: https://zenodo.org/records/7577127/files/schema.owl?download=1
+      bytes: 38054
+      upstream_md5: 4b30e41e4f21b55013a3f5e07e6722d1
+
+semmeddb:
+  release_id: semmedVER43_2024
+  source_url: https://lhncbc.nlm.nih.gov/temp/SemRep_SemMedDB_SKR/SemMedDB_download.html
+  schema_url: https://lhncbc.nlm.nih.gov/temp/SemRep_SemMedDB_SKR/dbinfo.html
+  database_name: semmedVER43_R
+  semrep_version: "1.8"
+  corpus: MEDLINE baseline 2022 plus PubMed update files through 2024-05-08
+  anaphora: "off"
+  quote_handling: >-
+    Quoted fields use a backslash before an embedded quotation mark.
+    The parser rewrites that sequence to a doubled CSV quote and leaves
+    the unquoted \N null marker unchanged. This was logged before any
+    path-count inspection.
+  access: >-
+    UMLS Terminology Services restricted download. The authorised API key
+    already present in the user environment is used. The key, tickets, and
+    signed URLs are never written to manifests, configs, or logs.
+  base_url: https://data.lhncbc.nlm.nih.gov/umls-restricted/ii/tools/SemRep_SemMedDB_SKR/
+  published_row_counts:
+    CITATIONS: 37233341
+    ENTITY: 1982424585
+    GENERIC_CONCEPT: 259
+    PREDICATION: 130480195
+    PREDICATION_AUX: 130480181
+    SENTENCE: 263160520
+  files:
+    - table: PREDICATION
+      name: semmedVER43_2024_R_PREDICATION.csv.gz
+    - table: ENTITY
+      name: semmedVER43_2024_R_ENTITY.csv.gz
+    - table: CITATIONS
+      name: semmedVER43_2024_R_CITATIONS.csv.gz
+    - table: GENERIC_CONCEPT
+      name: semmedVER43_2024_R_GENERIC_CONCEPT.csv.gz
+  not_downloaded:
+    - table: SENTENCE
+      reason: >-
+        Sentence identifiers are already on PREDICATION.SENTENCE_ID. The
+        sentence text file is article prose and is not required for this phase.
+    - table: PREDICATION_AUX
+      reason: >-
+        Negation is carried by the PREDICATE value. Auxiliary mention scores
+        are not used as scientific credibility and are not required to build
+        or audit the graph.
+
+ncbigene:
+  release_id: ncbigene_info_ftp
+  source_url: https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_info.gz
+  role: species-specific validation of NCBI Gene identifiers
+  note: >-
+    Snapshot identity is the file retrieved for this run, recorded by byte
+    size and SHA-256. The file header names the taxonomy column #tax_id.
+    The parser strips that leading hash. Homo sapiens is taxonomy 9606.
+
+citations:
+  release_id: icite_snapshot_2024_08_v1
+  title: iCite Database Snapshot 2024-08
+  doi: 10.35092/yhjc26955625.v1
+  figshare_article_id: 26955625
+  figshare_version: 1
+  published: 2024-09-09T19:06:33Z
+  version_url: https://nih.figshare.com/articles/dataset/iCite_Database_Snapshot_2024-08/26955625/1
+  note: >-
+    The citation archive is a two-column CSV. Column order is confirmed
+    against citation_count in the companion metadata before any motif is
+    reported. A citing-to-cited link is not a citation location.
+  files:
+    - name: open_citation_collection.zip
+      file_id: 49053379
+      url: https://ndownloader.figshare.com/files/49053379
+      bytes: 4275883569
+      upstream_md5: c0c76c36b12e359136f945e6a39061fe
+      role: directed citation links
+    - name: icite_metadata.zip
+      file_id: 49053640
+      url: https://ndownloader.figshare.com/files/49053640
+      bytes: 12029260152
+      upstream_md5: 948698a16838cf2d3ed352957fa115da
+      role: pmid membership and publication year

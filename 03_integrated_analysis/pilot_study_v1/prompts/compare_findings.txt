@@ -1,5 +1,0 @@
-Compare two findings from different papers about the same gene–cancer pair. Use the supplied finding records and the abstract text. Do not treat missing values as equal. Do not call a difference a contradiction when the study system, comparator, or outcome differs. Do not flip or multiply effect directions across different interventions.
-
-Return JSON with condition_relation: different_question | known_context_difference | comparable_on_reported_fields | insufficient_context
-and result_relation: similar_reported_direction | different_reported_direction | complementary | not_assessed
-plus reason and evidence quotes copied from the supplied text. comparable_on_reported_fields only means the required reported fields can be judged, not that the full context matches. Name the dimensions you actually compared.

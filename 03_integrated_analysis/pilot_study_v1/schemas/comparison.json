@@ -1,5 +1,0 @@
-{
-  "id": "comparison.v1",
-  "condition_relation": ["different_question", "known_context_difference", "comparable_on_reported_fields", "insufficient_context"],
-  "result_relation": ["similar_reported_direction", "different_reported_direction", "complementary", "not_assessed"]
-}

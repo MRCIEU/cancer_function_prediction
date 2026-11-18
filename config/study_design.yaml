@@ -1,0 +1,220 @@
+# Frozen before analytical outcome inspection.
+# Version identifies the rule set, not a fitted model.
+
+study:
+  task: joint_graph_and_evidence_audit
+  version: joint_graph_evidence_audit_v1
+  species_tax_id: "9606"
+  species_name: Homo sapiens
+
+identifiers:
+  gene_namespace: https://www.ncbi.nlm.nih.gov/gene/
+  cancer_namespace: http://linkedlifedata.com/resource/umls/id/
+  article_namespace: https://pubmed.ncbi.nlm.nih.gov/
+  sentence_namespace: http://gda.dei.unipd.it/cecore/resource/Sentence#
+  gcs_namespace: http://gda.dei.unipd.it/cecore/resource/GCS#
+  ontology_namespace: http://gda.dei.unipd.it/cecore/ontology/
+
+graph_boundary:
+  description: >-
+    Reportable anchors are resolved CORE entities. Candidate genes are CORE
+    genes whose NCBI Gene identifier is present in the pinned gene_info
+    snapshot with taxonomy 9606. Cancer queries are CORE disease concepts
+    identified by an exact UMLS CUI. The background graph also keeps human
+    genes and neoplastic-process concepts needed as intermediate nodes.
+    Eligible edges with both endpoints inside that entity set are retained,
+    including the gene-cancer edge between the two intermediate nodes of a
+    two_intermediate_path. Gene-gene edges are retained when both genes
+    resolve to distinct Homo sapiens NCBI Gene identifiers and at least one
+    endpoint is a candidate gene. Edges whose endpoints fall outside this
+    set, including non-human genes and non-neop disease concepts, are
+    counted and excluded. Orthologues are not mapped onto each other.
+    Broader cancer concepts are not treated as equivalent to subtypes.
+  excluded_and_reported:
+    - non_human_genes
+    - orthologue_collapsing
+    - hierarchy_expansion
+    - semantic_type_dsyn_without_neop
+    - gene_gene_edges_between_two_non_candidate_genes
+
+cancer_eligible_intermediate:
+  definition: >-
+    A cancer-eligible intermediate is a concept whose canonical identifier
+    is one exact UMLS CUI and that is either a disease CUI on a retained
+    CORE gene-cancer association, or a SemMedDB endpoint whose semantic-type
+    tokens contain neop and do not contain gngm or aapp. A CUI is not
+    expanded to ancestors or descendants. Semantic type dsyn alone does not
+    qualify.
+
+gene_semantic_types: [gngm, aapp]
+cancer_semantic_type: neop
+
+core_record:
+  association_direction: gene_subject_cancer_object
+  association_predicate: gene_cancer_association
+  has_type_path_eligible: [BIOMARKER, ONCOGENE, TSG]
+  has_type_missing: path_eligible_and_flagged_unknown
+  other_has_type: retained_for_audit_and_excluded_from_paths
+  sentence_labels:
+    gene_expression_change: [UP, DOWN]
+    cancer_status_change: [PROGRESSION, REGRESSION, NOTINF]
+    relation_nature: [CAUSALITY, OBSERVATION, NOTINF]
+    context: [EXPRESSION, OTHER]
+  unknown_tokens: ["", NOTINF]
+  rule: >-
+    Each GCS has one gene and one disease in the ontology. Sentence labels
+    stay on the sentence record. They are not copied onto the gene-cancer
+    pair as a single permanent attribute. If a future record links one
+    attribute tuple to several pairs, the tuple is stored once and a
+    junction table links it to each pair.
+
+semmeddb_predications:
+  negation_prefix: NEG_
+  negation_rule: >-
+    A negated predicate stays negated. It is available for audit and is not
+    eligible for a path. It is not rewritten as the opposite predicate.
+  direction_rule: >-
+    Subject and object are stored as asserted. Path templates traverse an
+    undirected connectivity edge. Traversal does not create a reverse claim.
+  gene_gene_allowed_predicates:
+    - INTERACTS_WITH
+    - STIMULATES
+    - INHIBITS
+    - AFFECTS
+    - DISRUPTS
+    - AUGMENTS
+    - PRODUCES
+    - COEXISTS_WITH
+    - ASSOCIATED_WITH
+    - CONVERTS_TO
+    - compared_with
+    - higher_than
+    - lower_than
+  gene_cancer_allowed_predicates:
+    - AFFECTS
+    - ASSOCIATED_WITH
+    - CAUSES
+    - PREDISPOSES
+    - PREVENTS
+    - DISRUPTS
+    - AUGMENTS
+    - STIMULATES
+    - INHIBITS
+    - PRODUCES
+    - COEXISTS_WITH
+    - compared_with
+    - higher_than
+    - lower_than
+  excluded_predicates_reason: >-
+    ISA and PART_OF are hierarchical. LOCATION_OF, OCCURS_IN, and PROCESS_OF
+    are locative. TREATS, DIAGNOSES, ADMINISTERED_TO, METHOD_OF, USES,
+    MANIFESTATION_OF, COMPLICATES, and PRECEDES are clinical-intervention or
+    temporal predicates rather than gene-cancer expression relations. Excluded
+    predicates are counted and are not used as path edges. They remain
+    visible in the representation audit when they sit on a connection that
+    an allowed path also uses.
+
+mapping:
+  display_name_matching: false
+  orthologue_mapping: false
+  hierarchy_mapping: false
+  cui_resolution: >-
+    A SemMedDB CUI resolves to a gene only when every single-valued ENTITY
+    gene identifier observed for that CUI is the same NCBI Gene identifier
+    and that identifier has taxonomy 9606 in the pinned gene_info file.
+    More than one distinct gene identifier, including a human gene and a
+    non-human gene, is ambiguous. No majority vote is applied.
+  embedded_identifier: >-
+    PREDICATION endpoint fields sometimes contain a bare NCBI Gene
+    identifier or CUI|GeneID rather than a CUI alone. A bare numeric
+    identifier resolves when gene_info records it as taxonomy 9606. A
+    composite CUI|GeneID resolves only when the embedded identifier is that
+    same unique human gene, or when the entity table has no gene identifier
+    for the CUI. A disagreement, or an entity table that lists more than
+    one gene identifier, is an unresolved conflict or ambiguity.
+  composite_mention: >-
+    An ENTITY gene-identifier cell with several identifiers is an ambiguous
+    mention. It does not vote for any one gene.
+
+paths:
+  one_intermediate_path:
+    template: candidate_gene - intermediate_gene - query_cancer
+    edges: 2
+    edge_requirements:
+      - gene_gene_semmeddb_allowed_affirmative
+      - gene_cancer_core_or_semmeddb_allowed_affirmative
+  two_intermediate_path:
+    template: candidate_gene - intermediate_cancer - intermediate_gene - query_cancer
+    edges: 3
+    edge_requirements:
+      - gene_cancer_core_or_semmeddb_allowed_affirmative
+      - gene_cancer_core_or_semmeddb_allowed_affirmative
+      - gene_cancer_core_or_semmeddb_allowed_affirmative
+  counting: >-
+    Each canonical tuple of distinct entities is counted once. Article and
+    predicate combinations along a path are not materialised. Repeated
+    genes, repeated cancers, and self-loops are excluded. An absent
+    candidate-cancer pair is unobserved graph coverage, not a biological
+    negative.
+  method: >-
+    Totals are exact. Template 2 uses a bitset intersection over the full
+    eligible graph. Sampling is not used. High-degree nodes remain in the
+    exact totals and are listed separately.
+
+representation_audit:
+  connectivity_only: >-
+    An unordered pair of canonical entity identifiers plus the edge family
+    gene_gene or gene_cancer, ignoring predicate, asserted direction,
+    negation, and CORE attributes.
+  attribute_comparison: >-
+    For the two genes on a two_intermediate_path, compare the sets of
+    informative CORE sentence tuples under the intermediate cancer.
+    A tuple is informative when it contains UP, DOWN, PROGRESSION,
+    REGRESSION, CAUSALITY, OBSERVATION, EXPRESSION, OTHER, BIOMARKER,
+    ONCOGENE, or TSG. NOTINF and missing values are unknown. Comparable
+    means both sets are non-empty and equal. Different means both are
+    non-empty and unequal. Otherwise the comparison has insufficient
+    information. Equal extracted labels are not evidence of a shared
+    experiment or mechanism.
+
+duplicates:
+  input_row: one Turtle statement or one SemMedDB CSV data row
+  source_record: one CORE sentence annotation or one SemMedDB predication identifier
+  mapped_record: a source record whose required endpoints resolve under the mapping rules
+  canonical_relationship: >-
+    For a gene-cancer association, one row per ordered human gene and cancer
+    CUI. For a semantic predication, one row per asserted subject, object,
+    predicate, and negation flag.
+  connectivity_edge: unordered entity pair plus edge family
+  unique_entity_pair: unordered pair of canonical identifiers
+  unique_pmid: distinct PMID after removal of leading zeros
+
+evaluation:
+  candidate_mask: all Homo sapiens CORE genes retained as candidate anchors
+  query_mask: all CORE cancer CUIs retained as query anchors
+  hold_constant:
+    - candidate_mask
+    - query_mask
+    - allowed_sources
+    - path_templates
+    - predicate_allow_lists
+  references:
+    - core_direct_association
+    - joint_connectivity_only
+    - connectivity_plus_relation_details
+    - connectivity_plus_source_provenance
+  metrics:
+    - macro_recall_at_50
+    - pooled_recovered_targets
+    - coverage
+    - top_list_entry_exit
+  outcome_benchmark: not_run_in_this_phase
+
+exposure:
+  statement: >-
+    This phase rebuilds the graph from newly retrieved inputs. It does not
+    claim an independent evaluation. A previous implementation was committed
+    in this repository and the working tree was empty of those files at the
+    start of this rebuild. Previous result directories were not used as
+    inputs. Downloading the same public release again does not erase earlier
+    exposure.
