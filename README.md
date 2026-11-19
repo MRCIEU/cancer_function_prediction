@@ -1,34 +1,3 @@
-# Joint graph and evidence audit
+# Relation detail changes what a short gene–cancer path keeps and what recovery can use
 
-This repository builds a provenance-preserving joint graph from the CORE Gene Expression–Cancer Knowledge Base and SemMedDB, then audits the two short path templates below. It does not train a model, rank candidates, or adjudicate article prose.
-
-## Glossary
-
-- `gene_cancer_association`: a CORE record linking one gene node to one cancer node. Sentence-level labels stay on the source record and are not stored as a single property of the pair.
-- `semantic_predication`: a SemMedDB predication. The predicate, asserted subject and object, and negation flag are kept. A `NEG_` predicate is not rewritten as the opposite predicate.
-- `source_article`: one PMID. Bibliographic fields come from CORE article metadata or the SemMedDB CITATIONS table.
-- `citation_link`: a directed pair `citing_pmid` to `cited_pmid`. It is not a citation location and it is not evidence about why the citation was made.
-- `connectivity_only`: an unordered pair of canonical entity identifiers plus the family gene-gene or gene-cancer. Predicate, direction, negation, and CORE attributes are omitted.
-- `representation_audit`: a comparison, on the paths allowed by the study design, of that connectivity-only edge with the relation attributes and predication details that remain available.
-- `one_intermediate_path`: candidate gene — intermediate gene — query cancer. This template contains two edges.
-- `two_intermediate_path`: candidate gene — intermediate cancer — intermediate gene — query cancer. This template contains three edges.
-- PMID: PubMed identifier. CUI: UMLS concept unique identifier.
-
-## Layout
-
-Code and configuration live in this repository. Pinned inputs and formal outputs live under `/home/b5ac/freddieyu.b5ac/projects/project_2`. Scratch holds downloads in progress and columnar intermediates.
-
-The frozen rules are `config/study_design.yaml`. Source versions are `config/data_sources.yaml`.
-
-## Run
-
-Use the installed `hf-hpc` environment. Do not install packages for this phase.
-
-```bash
-conda activate hf-hpc
-export PYTHONPATH=/home/b5ac/freddieyu.b5ac/project_2
-python -m unittest tests.test_graph_audit
-sbatch submit_graph_audit.sbatch
-```
-
-`MODE=dry` measures a capped parse after the download. `MODE=formal` publishes `results/joint_graph_and_evidence_audit_<UTC>/`. The SemMedDB download uses `UMLS_API_KEY` from the environment and does not write that key to the repository, manifests, or logs.
+A gene–cancer edge can be stored as an unordered connection, or the same edge can keep the CORE sentence attributes, the SemMedDB predicate and its traversal direction, and the citation link between the articles on adjacent edges. This repository implements that comparison on one joint graph. CORE release 1.1 and SemMedDB semmedVER43_2024 are the pinned sources, with NCBI Gene used to confirm human genes and the iCite 2024-08 snapshot used for citation links. Candidate genes are Homo sapiens NCBI Gene identifiers. Cancer queries are exact UMLS concept identifiers. Two templates are fixed: a candidate gene, an intermediate gene, and the query cancer; and a candidate gene, an intermediate cancer, an intermediate gene, and the query cancer. Degree-weighted path counts use damping 0.4. Development recovery compares path counts, a restart walk, an L2 logistic regression, gradient-boosted trees, a relational graph convolution, and a template path network. The primary score is macro Recall@50 within each cancer, with ties broken by gene identifier. The modules do not read article or sentence prose. A check that an input loads is not evidence that the added detail improves recovery, and these modules do not open a formal test split.
